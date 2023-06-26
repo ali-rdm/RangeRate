@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--star rating-->
+    <color name="disable_star_background">#CECECE</color>
+    <color name="enable_star_background">#F7CF00</color>
+    <color name="satr_rate_text_color">#616161</color>
+
+
+    <color name="comment_rate_bar_aali">#006FFF</color>
+    <color name="comment_rate_bar_khoob">#00C336</color>
+    <color name="comment_rate_bar_motavaset">#F7CF00</color>
+    <color name="comment_rate_bar_zaeef">#F78500</color>
+    <color name="comment_rate_bar_bad">#FB4C4C</color>
+
+  </resources>
