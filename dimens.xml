@@ -8,4 +8,10 @@
     <dimen name="comment_ratbar_circle_margin_vertical">40dp</dimen>
     <dimen name="comment_ratbar_circle_click_telorance">20dp</dimen>
 
+     <!-- start-->
+    <dimen name="star_rating_size_with">21dp</dimen>
+    <dimen name="star_rating_font_size">12dp</dimen>
+    <dimen name="star_rating_width">43dp</dimen>
+    <dimen name="star_rating_height">23dp</dimen>
+
 </resources>
