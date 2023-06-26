@@ -1,0 +1,373 @@
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.Typeface;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.srp.ferfere.R;
+
+public class CommentRangeRate extends View {
+
+    private Typeface mTabTypeFace;
+    private Resources resources;
+
+
+    private Paint mCircleBad;
+    private Paint mCircleZaeef;
+    private Paint mCircleMotavaset;
+    private Paint mCirclKhoob;
+    private Paint mCircleAli;
+
+    private Paint mProgres1;
+    private Paint mProgres2;
+    private Paint mProgres3;
+    private Paint mProgres4;
+
+
+    private RectF mC1Rect = new RectF();
+    private RectF mC2Rect = new RectF();
+    private RectF mC3Rect = new RectF();
+    private RectF mC4Rect = new RectF();
+    private RectF mC5Rect = new RectF();
+
+    private float volum;
+    private float rate = (float) 3.3;
+
+    private int width;
+    private int height;
+
+    private int circleWidth;
+    private int telorance;
+
+    private int marginLeft;
+    private int marginVertical;
+
+
+    private String mBadString;
+    private Paint mBadTextPaint;
+
+    private String mZaeefString;
+    private Paint mZaeefTextPaint;
+
+    private String mMotavasetString;
+    private Paint mMotavasetTextPaint;
+
+    private String mKhoobString;
+    private Paint mKhoobTextPaint;
+
+    private String mAliString;
+    private Paint mAliTextPaint;
+
+
+
+    @ColorInt int bad= 0xffFB4C4C;
+    @ColorInt int zaeef= 0xffF78500;
+    @ColorInt int motavaset= 0xffF7CF00;
+    @ColorInt int khoob= 0xff00C336;
+    @ColorInt int ali= 0xff006FFF;
+
+    public CommentRangeRate(Context context) {
+        super(context);
+        initialize(context, null, 0);
+    }
+
+    public CommentRangeRate(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initialize(context, attrs, 0);
+    }
+
+    public CommentRangeRate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initialize(context, attrs, defStyleAttr);
+    }
+
+    private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
+
+        resources = context.getResources();
+
+        mTabTypeFace = ResourcesCompat.getFont(context, R.font.yekan_bakh_fanum_bold);
+
+
+//        width=resources.getDimensionPixelSize(R.dimen.star_rating_width);
+//        height=resources.getDimensionPixelSize(R.dimen.star_rating_height);
+
+        circleWidth = resources.getDimensionPixelSize(R.dimen.comment_ratbar_circle_width);
+
+        height = resources.getDimensionPixelSize(R.dimen.comment_ratbar_row_height);
+        marginLeft = resources.getDimensionPixelSize(R.dimen.comment_ratbar_circle_margin_horzontal);
+        marginVertical = resources.getDimensionPixelSize(R.dimen.comment_ratbar_circle_margin_vertical);
+        telorance = resources.getDimensionPixelSize(R.dimen.comment_ratbar_circle_click_telorance);
+
+        mCircleBad = new Paint();
+        mCircleBad.setAntiAlias(true);
+        mCircleBad.setStyle(Paint.Style.FILL);
+        mCircleBad.setColor(resources.getColor(R.color.disable_star_background));
+
+        mCircleZaeef = new Paint();
+        mCircleZaeef.setAntiAlias(true);
+        mCircleZaeef.setStyle(Paint.Style.FILL);
+        mCircleZaeef.setColor(resources.getColor(R.color.disable_star_background));
+
+        mCircleMotavaset = new Paint();
+        mCircleMotavaset.setAntiAlias(true);
+        mCircleMotavaset.setStyle(Paint.Style.FILL);
+        mCircleMotavaset.setColor(resources.getColor(R.color.disable_star_background));
+
+        mCirclKhoob = new Paint();
+        mCirclKhoob.setAntiAlias(true);
+        mCirclKhoob.setStyle(Paint.Style.FILL);
+        mCirclKhoob.setColor(resources.getColor(R.color.disable_star_background));
+
+        mCircleAli = new Paint();
+        mCircleAli.setAntiAlias(true);
+        mCircleAli.setStyle(Paint.Style.FILL);
+        mCircleAli.setColor(resources.getColor(R.color.disable_star_background));
+
+        mProgres1 = new Paint();
+        mProgres1.setAntiAlias(true);
+        mProgres1.setStyle(Paint.Style.FILL);
+        mProgres1.setColor(resources.getColor(R.color.disable_star_background));
+
+        mProgres2 = new Paint();
+        mProgres2.setAntiAlias(true);
+        mProgres2.setStyle(Paint.Style.FILL);
+        mProgres2.setColor(resources.getColor(R.color.disable_star_background));
+
+
+        mProgres3 = new Paint();
+        mProgres3.setAntiAlias(true);
+        mProgres3.setStyle(Paint.Style.FILL);
+        mProgres3.setColor(resources.getColor(R.color.disable_star_background));
+
+        mProgres4 = new Paint();
+        mProgres4.setAntiAlias(true);
+        mProgres4.setStyle(Paint.Style.FILL);
+        mProgres4.setColor(resources.getColor(R.color.disable_star_background));
+
+        mBadTextPaint = new Paint();
+        mBadTextPaint.setAntiAlias(true);
+        mBadTextPaint.setColor(resources.getColor(R.color.satr_rate_text_color));
+        mBadTextPaint.setTextSize(resources.getDimension(R.dimen.star_rating_font_size));
+        mBadTextPaint.setTypeface(mTabTypeFace);
+        mBadTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mZaeefTextPaint = new Paint();
+        mZaeefTextPaint.setAntiAlias(true);
+        mZaeefTextPaint.setColor(resources.getColor(R.color.satr_rate_text_color));
+        mZaeefTextPaint.setTextSize(resources.getDimension(R.dimen.star_rating_font_size));
+        mZaeefTextPaint.setTypeface(mTabTypeFace);
+        mZaeefTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mMotavasetTextPaint = new Paint();
+        mMotavasetTextPaint.setAntiAlias(true);
+        mMotavasetTextPaint.setColor(resources.getColor(R.color.satr_rate_text_color));
+        mMotavasetTextPaint.setTextSize(resources.getDimension(R.dimen.star_rating_font_size));
+        mMotavasetTextPaint.setTypeface(mTabTypeFace);
+        mMotavasetTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mKhoobTextPaint = new Paint();
+        mKhoobTextPaint.setAntiAlias(true);
+        mKhoobTextPaint.setColor(resources.getColor(R.color.satr_rate_text_color));
+        mKhoobTextPaint.setTextSize(resources.getDimension(R.dimen.star_rating_font_size));
+        mKhoobTextPaint.setTypeface(mTabTypeFace);
+        mKhoobTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mAliTextPaint = new Paint();
+        mAliTextPaint.setAntiAlias(true);
+        mAliTextPaint.setColor(resources.getColor(R.color.satr_rate_text_color));
+        mAliTextPaint.setTextSize(resources.getDimension(R.dimen.star_rating_font_size));
+        mAliTextPaint.setTypeface(mTabTypeFace);
+        mAliTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        volum = resources.getDimensionPixelSize(R.dimen.star_rating_size_with);
+        volum = volum / 51;
+
+        mBadString = "بد";
+        mZaeefString = "ضعیف";
+        mMotavasetString="متوسط";
+        mKhoobString="خوب";
+        mAliString="عالی";
+
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        width = MeasureSpec.getSize(widthMeasureSpec);
+//        height = MeasureSpec.getSize(heightMeasureSpec);
+
+//        circleCenter= (height/2)- (2*marginLeft) - (4*circleWidth) ;
+
+        setMeasuredDimension(MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+    }
+
+    @Override
+    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+
+        int space = ((width - (5 * circleWidth) - (2 * marginLeft)) / 4);
+//        mStarContainer.setBounds(50, 0, resources.getDimensionPixelSize(R.dimen.star_rating_size_with)+50, resources.getDimensionPixelSize(R.dimen.star_rating_size_with));
+
+        mC1Rect.left = marginLeft;
+        mC1Rect.right = circleWidth + marginLeft;
+        mC1Rect.top = marginVertical;
+        mC1Rect.bottom = (2 * marginVertical) + circleWidth;
+
+
+        float cir2 = mC1Rect.right + space;
+        mC2Rect.left = cir2;
+        mC2Rect.right = circleWidth + cir2;
+        mC2Rect.top = marginVertical;
+        mC2Rect.bottom = (2 * marginVertical) + circleWidth;
+
+        float cir3 = mC2Rect.right + space;
+        mC3Rect.left = cir3;
+        mC3Rect.right = circleWidth + cir3;
+        mC3Rect.top = marginVertical;
+        mC3Rect.bottom = (2 * marginVertical) + circleWidth;
+
+        float cir4 = mC3Rect.right + space;
+        mC4Rect.left = cir4;
+        mC4Rect.right = circleWidth + cir4;
+        mC4Rect.top = marginVertical;
+        mC4Rect.bottom = (2 * marginVertical) + circleWidth;
+
+        float cir5 = mC4Rect.right + space;
+        mC5Rect.left = cir5;
+        mC5Rect.right = circleWidth + cir5;
+        mC5Rect.top = marginVertical;
+        mC5Rect.bottom = (2 * marginVertical) + circleWidth;
+
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.drawText(mBadString, mC5Rect.centerX() - (mBadString.length()/2), mC5Rect.top -20, mBadTextPaint);
+        canvas.drawText(mZaeefString, mC4Rect.centerX() - (mZaeefString.length()/2), mC4Rect.top -20, mZaeefTextPaint);
+        canvas.drawText(mMotavasetString, mC3Rect.centerX() - (mMotavasetString.length()/2), mC3Rect.top -20, mMotavasetTextPaint);
+        canvas.drawText(mKhoobString, mC2Rect.centerX() - (mKhoobString.length()/2), mC2Rect.top -20, mKhoobTextPaint);
+        canvas.drawText(mAliString, mC1Rect.centerX() - (mAliString.length()/2), mC1Rect.top -20, mAliTextPaint);
+
+        canvas.drawRect(mC1Rect.right - 2, mC1Rect.centerY() - 4, mC2Rect.left + 2, mC1Rect.centerY() + 4, mProgres1);
+        canvas.drawRect(mC2Rect.right - 2, mC2Rect.centerY() - 4, mC3Rect.left + 2, mC3Rect.centerY() + 4, mProgres2);
+        canvas.drawRect(mC3Rect.right - 2, mC3Rect.centerY() - 4, mC4Rect.left + 2, mC3Rect.centerY() + 4, mProgres3);
+        canvas.drawRect(mC4Rect.right - 2, mC4Rect.centerY() - 4, mC5Rect.left + 2, mC4Rect.centerY() + 4, mProgres4);
+
+        canvas.drawCircle(mC1Rect.centerX(), mC1Rect.centerY(), circleWidth, mCircleAli);
+        canvas.drawCircle(mC2Rect.centerX(), mC2Rect.centerY(), circleWidth, mCirclKhoob);
+        canvas.drawCircle(mC3Rect.centerX(), mC3Rect.centerY(), circleWidth, mCircleMotavaset);
+        canvas.drawCircle(mC4Rect.centerX(), mC4Rect.centerY(), circleWidth, mCircleZaeef);
+        canvas.drawCircle(mC5Rect.centerX(), mC5Rect.centerY(), circleWidth, mCircleBad);
+//        canvas.drawRect(mC1Rect.left , mC1Rect.top , mC1Rect.left +(float)(volum *10* rate),mC1Rect.bottom , mCircleBad);
+
+
+//        mStarContainer.draw(canvas);
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                onCircleTouc(x);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+//                touch_up();
+                invalidate();
+                break;
+        }
+        return true;
+    }
+
+
+
+    private void onCircleTouc(float x){
+        float dx = Math.abs(x);
+        if (dx <= mC1Rect.centerX() + telorance && dx >= mC1Rect.centerX()- telorance ){
+            mCircleAli.setColor(resources.getColor(R.color.comment_rate_bar_aali));
+            mCirclKhoob.setColor(resources.getColor(R.color.comment_rate_bar_khoob));
+            mCircleMotavaset.setColor(resources.getColor(R.color.comment_rate_bar_motavaset));
+            mCircleZaeef.setColor(resources.getColor(R.color.comment_rate_bar_zaeef));
+            mCircleBad.setColor(resources.getColor(R.color.comment_rate_bar_bad));
+
+            mProgres1.setShader(new LinearGradient(mC1Rect.centerX(), 0, mC2Rect.centerX(), 0, ali , khoob, Shader.TileMode.MIRROR));
+            mProgres2.setShader(new LinearGradient(mC2Rect.centerX(), 0, mC3Rect.centerX(), 0, khoob , motavaset, Shader.TileMode.MIRROR));
+            mProgres3.setShader(new LinearGradient(mC3Rect.centerX(), 0, mC4Rect.centerX(), 0, motavaset , zaeef, Shader.TileMode.MIRROR));
+            mProgres4.setShader(new LinearGradient(mC4Rect.centerX(), 0, mC5Rect.centerX(), 0, zaeef , bad, Shader.TileMode.MIRROR));
+
+        }
+        else if (dx <= mC2Rect.centerX() + telorance && dx >= mC2Rect.centerX()- telorance ){
+            mCirclKhoob.setColor(resources.getColor(R.color.comment_rate_bar_khoob));
+            mCircleMotavaset.setColor(resources.getColor(R.color.comment_rate_bar_motavaset));
+            mCircleZaeef.setColor(resources.getColor(R.color.comment_rate_bar_zaeef));
+            mCircleBad.setColor(resources.getColor(R.color.comment_rate_bar_bad));
+            mProgres2.setShader(new LinearGradient(mC2Rect.centerX(), 0, mC3Rect.centerX(), 0, khoob , motavaset, Shader.TileMode.MIRROR));
+            mProgres3.setShader(new LinearGradient(mC3Rect.centerX(), 0, mC4Rect.centerX(), 0, motavaset , zaeef, Shader.TileMode.MIRROR));
+            mProgres4.setShader(new LinearGradient(mC4Rect.centerX(), 0, mC5Rect.centerX(), 0, zaeef , bad, Shader.TileMode.MIRROR));
+
+            mCircleAli.setColor(resources.getColor(R.color.disable_star_background));
+            mProgres1.setShader(null);
+
+        }else if (dx <= mC3Rect.centerX() + telorance && dx >= mC3Rect.centerX()- telorance ){
+            mCircleMotavaset.setColor(resources.getColor(R.color.comment_rate_bar_motavaset));
+            mCircleZaeef.setColor(resources.getColor(R.color.comment_rate_bar_zaeef));
+            mCircleBad.setColor(resources.getColor(R.color.comment_rate_bar_bad));
+
+            mProgres3.setShader(new LinearGradient(mC3Rect.centerX(), 0, mC4Rect.centerX(), 0, motavaset , zaeef, Shader.TileMode.MIRROR));
+            mProgres4.setShader(new LinearGradient(mC4Rect.centerX(), 0, mC5Rect.centerX(), 0, zaeef , bad, Shader.TileMode.MIRROR));
+
+            mCircleAli.setColor(resources.getColor(R.color.disable_star_background));
+            mCirclKhoob.setColor(resources.getColor(R.color.disable_star_background));
+            mProgres1.setShader(null);
+            mProgres2.setShader(null);
+
+        }else if (dx <= mC4Rect.centerX() + telorance && dx >= mC4Rect.centerX()- telorance ){
+            mCircleZaeef.setColor(resources.getColor(R.color.comment_rate_bar_zaeef));
+            mCircleBad.setColor(resources.getColor(R.color.comment_rate_bar_bad));
+
+            mProgres4.setShader(new LinearGradient(mC4Rect.centerX(), 0, mC5Rect.centerX(), 0, zaeef , bad, Shader.TileMode.MIRROR));
+
+
+            mCircleAli.setColor(resources.getColor(R.color.disable_star_background));
+            mCirclKhoob.setColor(resources.getColor(R.color.disable_star_background));
+            mCircleMotavaset.setColor(resources.getColor(R.color.disable_star_background));
+            mProgres1.setShader(null);
+            mProgres2.setShader(null);
+            mProgres3.setShader(null);
+
+        }else if (dx <= mC5Rect.centerX() + telorance && dx >= mC5Rect.centerX()- telorance ){
+            mCircleBad.setColor(resources.getColor(R.color.comment_rate_bar_bad));
+
+
+
+            mCircleAli.setColor(resources.getColor(R.color.disable_star_background));
+            mCirclKhoob.setColor(resources.getColor(R.color.disable_star_background));
+            mCircleMotavaset.setColor(resources.getColor(R.color.disable_star_background));
+            mCircleZaeef.setColor(resources.getColor(R.color.disable_star_background));
+
+            mProgres1.setShader(null);
+            mProgres2.setShader(null);
+            mProgres3.setShader(null);
+            mProgres4.setShader(null);
+        }
+
+
+    }
+
+}
