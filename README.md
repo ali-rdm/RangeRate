@@ -4,7 +4,7 @@ android custom view for rating
 This is a simple rating bar with a different view
 I hope it is useful for you
 
-<img src="https://github.com/ali-rdm/RangeRate/assets/43491747/b43f24ad-f7cf-4fa2-988b-0324a82fe55a.gif" width="300" height="600" alt="Resized GIF">
+<img src="https://github.com/ali-rdm/RangeRate/assets/43491747/b43f24ad-f7cf-4fa2-988b-0324a82fe55a.gif" width="350" height="600" alt="Resized GIF">
 
 
 
